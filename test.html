@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dropdown Menu</title>
+    <style>
+      #dropdown {
+        font-size: 16px;
+      }
+      .default {
+        color: black;
+      }
+      .yes {
+        color: green;
+      }
+      .no {
+        color: red;
+      }
+      .maybe {
+        color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <select id="dropdown" class="default" onchange="changeColor()">
+      <option value="default">Select one</option>
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+      <option value="maybe">Maybe</option>
+    </select>
+    <select id="secondDropdown" class="default" style="display: none"></select>
+
+    <script>
+      function changeColor() {
+        var dropdown = document.getElementById("dropdown");
+        var selectedValue = dropdown.value;
+        dropdown.className = selectedValue;
+      }
+    </script>
+  </body>
+</html>
+
+<script>
+  function changeColor() {
+    var dropdown = document.getElementById("dropdown");
+    var selectedValue = dropdown.value;
+    dropdown.className = selectedValue;
+    populateSecondDropdown(selectedValue);
+  }
+
+  function populateSecondDropdown(selectedValue) {
+    var secondDropdown = document.getElementById("secondDropdown");
+    secondDropdown.style.display = "block";
+    secondDropdown.innerHTML = "";
+
+    var options = [];
+    if (selectedValue === "yes") {
+      options = ["Are you sure?", "Are you really sure?"];
+    } else if (selectedValue === "no") {
+      options = ["Are you sure?"];
+    } else if (selectedValue === "maybe") {
+      options = ["Are you sure?", "Cool"];
+    } else {
+      secondDropdown.style.display = "none";
+      return;
+    }
+
+    options.forEach(function (optionText) {
+      var option = document.createElement("option");
+      option.value = optionText.toLowerCase().replace(/\s+/g, "-");
+      option.text = optionText;
+      secondDropdown.appendChild(option);
+    });
+  }
+</script>
+<style>
+  body {
+    overscroll-behavior: none;
+  }
+
+  .nav-link-text::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-color);
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+
+    transform: translateX(-120%);
+    transition: all 0.5s;
+  }
+
+  .nav-link-text {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .nav-link-text:hover::after {
+    transform: translateX(0);
+  }
+
+  .arrow-text {
+    text-shadow: 0 0 2px black;
+  }
+
+  .card-link::after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+    height: 4px;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    background-color: var(--accent-color);
+    transform: scale(60%, 100%);
+    transition: all 0.3s;
+  }
+  .card-link {
+    position: relative;
+  }
+
+  .card-link:hover::after {
+    transform: scale(100%, 100%);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    transition: all 0.4s;
+  }
+
+  .btn-primary:hover {
+    color: black;
+    background-color: white;
+  }
+
+  .btn-primary.large:hover {
+    color: white;
+    background-color: black;
+  }
+
+  .btn-primary.large.bg-black:hover {
+    color: black;
+    background-color: white;
+  }
+
+  .btn-primary.bg-orange:hover {
+    color: black;
+    background-color: white;
+  }
+
+  .btn-secondary:hover {
+    color: white;
+    background-color: black;
+  }
+
+  .section-bg-white .card-link {
+    color: black;
+  }
+
+  .section-bg-black .card-link {
+    color: white;
+  }
+
+  .section-bg-orange .card-link {
+    color: black;
+  }
+
+  .section-bg-orange .card-link::after {
+    background-color: black;
+  }
+
+  .section-bg-image .card-link {
+    color: white;
+  }
+
+  .mobile-nav-open-container {
+    transition: all 0.4s;
+  }
+
+  .nav-open {
+    transform: translateX(0);
+  }
+
+  .heading-8 {
+    position: relative;
+    background: transparent;
+    z-index: 1;
+  }
+
+  .heading-8::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 110%;
+    background-color: black;
+    position: absolute;
+    bottom: 0.2em;
+    z-index: -1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .section-bg-image.filter {
+      background-attachment: fixed;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .card-link::after {
+      width: 60%;
+      transform: scale(100%, 100%);
+    }
+
+    .card-link:hover::after {
+      width: 100%;
+    }
+  }
+</style>
+<script>
+  const closeMobileNav = document.getElementById("close-mobile-nav");
+  const openMobileNav = document.getElementById("open-mobile-nav");
+  const openNavContainer = document.querySelector(".mobile-nav-open-container");
+  const colorOptionsModalImageDisplay = document.querySelector(
+    ".modal-image-display"
+  );
+
+  openMobileNav.addEventListener("click", () => {
+    openNavContainer.classList.add("nav-open");
+    openMobileNav.setAttribute("aria-expanded", "true");
+  });
+
+  openMobileNav.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      openNavContainer.classList.add("nav-open");
+      openMobileNav.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  closeMobileNav.addEventListener("click", () => {
+    openNavContainer.classList.remove("nav-open");
+    openMobileNav.setAttribute("aria-expanded", "false");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      openNavContainer.classList.remove("nav-open");
+      openMobileNav.setAttribute("aria-expanded", "false");
+
+      if (colorOptionsModalImageDisplay) {
+        setTimeout(() => {
+          colorOptionsModalImageDisplay.src = "";
+          colorOptionsModalImageDisplay.srcset = "";
+        }, 300);
+      }
+
+      document.querySelectorAll(".visible").forEach((el) => {
+        el.classList.remove("visible");
+
+        document.body.style.overflow = "auto";
+      });
+
+      document.querySelectorAll(".selected-image").forEach((el) => {
+        el.classList.remove("selected-image");
+      });
+    }
+  });
+  function updateOptions() {
+    var dropdown = document.getElementById("record-size");
+  }
+</script>
